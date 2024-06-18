@@ -18,8 +18,17 @@ export default class Recipe {
     this.title = result.data.recipe.title;
     this.social_rank = result.data.recipe.social_rank;
 
-    console.log(this.ingredients);
-    console.log(this.title);
+    // console.log(this.ingredients);
+    // console.log(this.title);
     // console.log(result);
+  }
+
+  calcTime(){
+    // each ingreadient have 5 min approximately to spend 
+    this.time = this.ingredients.length * 5; 
+  }
+
+  calcHumanNumber(){
+    this.humanNumber = 4;
   }
 }

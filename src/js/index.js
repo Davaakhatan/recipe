@@ -1,7 +1,8 @@
 import Search from "./model/Search";
 import { elements, renderLoader, clearLoader } from "./view/base";
 import * as searchView from "./view/searchView";
-import Recipe from './model/Recipe'
+import Recipe from "./model/Recipe";
+import { renderRecipe, clearRecipe } from './view/recipeView';
 
 /**
  * Web  app state
@@ -42,13 +43,44 @@ elements.searchForm.addEventListener("submit", (e) => {
 elements.pageButtons.addEventListener("click", (e) => {
   const btn = e.target.closest(".btn-inline");
 
-  if(btn) {
+  if (btn) {
     const gotoPageNumber = parseInt(btn.dataset.goto, 10);
     searchView.clearSearchResult();
     searchView.renderRecipes(state.search.result, gotoPageNumber);
   }
 });
 
-
 const r = new Recipe(47746);
 r.getRecipe();
+
+/**
+ * Recipe controller
+ */
+
+const controlRecipe = async () => {
+  // 1. get id from URL
+  const id = window.location.hash.replace("#", "");
+
+  // 2. create model for Recipe
+  state.recipe = new Recipe(id);
+
+  // 3. prepare the UI
+  clearRecipe();
+  renderLoader(elements.recipeDiv);
+
+
+  // 4. download the recipe
+  await state.recipe.getRecipe();
+
+  // 5. calculate the time and ingredients of Recipe
+  clearLoader();
+  state.recipe.calcTime();
+  state.recipe.calcHumanNumber();
+  
+  // 6. display the Recipe on UI
+  renderRecipe(state.recipe);
+};
+
+
+window.addEventListener("hashchange", controlRecipe);
+window.addEventListener("load", controlRecipe);
