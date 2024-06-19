@@ -23,12 +23,12 @@ export default class Recipe {
     // console.log(result);
   }
 
-  calcTime(){
-    // each ingreadient have 5 min approximately to spend 
-    this.time = this.ingredients.length * 5; 
+  calcTime() {
+    // each ingreadient have 5 min approximately to spend
+    this.time = this.ingredients.length * 5;
   }
 
-  calcHumanNumber(){
+  calcHumanNumber() {
     this.humanNumber = 4;
   }
 }

@@ -1,6 +1,6 @@
 import { elements } from "./base";
 
-const renderRecipies = recipe1 => `       
+const renderRecipies = (recipe1) => `       
     <li class="recipe__item">
         <svg class="recipe__icon">
             <use href="img/icons.svg#icon-check"></use>
@@ -11,13 +11,21 @@ const renderRecipies = recipe1 => `
     </li>
 `;
 
+export const highlightSelectedRecipe = (id) => {
+  const arr = Array.from(document.querySelectorAll(".results__link"));
+  arr.forEach((el) => el.classList.remove("results__link--active"));
+
+  const domOjb = document.querySelector(`.results__link[href*="${id}"]`);
+
+  if (domOjb) domOjb.classList.add("results__link--active");
+};
 
 export const clearRecipe = () => {
   // clear or remove current recipe which on the display
   elements.recipeDiv.innerHTML = "";
 };
 
-export const renderRecipe = (recipe) => {
+export const renderRecipe = (recipe, isLiked) => {
   //  dipslay the recipe in the UI
   const html = `
   <figure class="recipe__fig">
@@ -61,7 +69,7 @@ export const renderRecipe = (recipe) => {
     </div>
     <button class="recipe__love">
         <svg class="header__likes">
-            <use href="img/icons.svg#icon-heart-outlined"></use>
+            <use href="img/icons.svg#icon-heart${isLiked ? '' : '-outlined'}"></use>
         </svg>
     </button>
     </div>
@@ -70,7 +78,7 @@ export const renderRecipe = (recipe) => {
     <div class="recipe__ingredients">
     <ul class="recipe__ingredient-list">
 
-        ${recipe.ingredients.map((el) => renderRecipies(el)).join(' ')}
+        ${recipe.ingredients.map((el) => renderRecipies(el)).join(" ")}
 
     </ul>
 
